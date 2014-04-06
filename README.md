@@ -11,20 +11,20 @@ $davis = new DavisWeather();
 $weather = $davis->getWeatherLive($IP,$PORT);
 
 if ($weather == false)
-		    {
-		    	$Fail = True;
-		    }
-		    elseif ($weather->Barometer == 0)
-		    {
-		    	$Fail = True;
-		    }
-		    else
-		    {
-		    	$Fail = false;
-		    }
-		    
-if (!$Fail)
 {
+	$Fail = True;
+}
+	elseif ($weather->Barometer == 0)
+{
+	$Fail = True;
+}
+else
+{
+	$Fail = false;
+}
+	if (!$Fail)
+{
+
 /*
 
 List of Data Received
@@ -33,6 +33,7 @@ $weather->Bar_Trend,
 $weather->Barometer,
 $weather->Indoor->Temp,
 $weather->Indoor->Humidity,
+
 $weather->Outdoor->Temp,
 $weather->Outdoor->Humidity,
 $weather->Wind->Speed,
