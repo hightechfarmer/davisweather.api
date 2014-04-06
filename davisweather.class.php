@@ -11,9 +11,9 @@ class DavisWeather
 
     //Set Lamp On/Off
     //Status = 0 = OFF, 1 = ON
-    public function setLamp($Status)
+    public function setLamp($Status,$IP, $PORT)
 	{
-		$Response = $this->pullPacket("LAMPS " . $Status . ASCII_LINE_FEED, RESPONSE_OK);
+		$Response = $this->pullPacket("LAMPS " . $Status . ASCII_LINE_FEED, RESPONSE_OK, $IP, $PORT);
 		return $Response;
 	}
 
@@ -157,10 +157,7 @@ class DavisWeather
 	    $fp = fsockopen($IP, $PORT, $errno, $errstr, 5);
 	    if (!$fp)
 		{
-			openlog("[HomeAutoFeed] " . $GLOBALS['PATHVar'] . "[" . getmypid() . "]", 0, LOG_LOCAL0);
-			syslog(LOG_ERR, "Davis Weather Class - Connection Fail [" . $IP . ":" . $PORT . "][[$errstr ($errno)]");
-  			closelog();
-	    	//echo "Davis Weather Class - Connection Fail [" . WEATHERIP . ":" . WEATHERPORT . "][[$errstr ($errno)]";
+	    		echo "Davis Weather Class - Connection Fail [" . WEATHERIP . ":" . WEATHERPORT . "][[$errstr ($errno)]";
 		}
 		else
 		{
@@ -218,7 +215,6 @@ class DavisWeather
                     	for ($pointer = 0; $pointer < 99; $pointer++)
 	    				{
 	        				$packet[$pointer] = fgetc($fp);
-	        				//echo ".";
 	        			}
                         return $packet;
 
