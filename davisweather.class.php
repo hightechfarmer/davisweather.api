@@ -28,57 +28,57 @@ class DavisWeather
 
         //LOOP 2 Packet 99 Bytes
 		$DataPacket = (object) array(
-								'Bar_Trend' => $this->BarTrend($this->ConvertValue($Packet[3])),
-								'Barometer' => $this->ConvertValue($Packet[7], false, $Packet[8], 3),
-								'Indoor' => (object) array (
-														'Temp'  => $this->ConvertValue($Packet[9], true, $Packet[10], 1),
+			'Bar_Trend' => $this->BarTrend($this->ConvertValue($Packet[3])),
+			'Barometer' => $this->ConvertValue($Packet[7], false, $Packet[8], 3),
+			'Indoor' => (object) array (
+									'Temp'  => $this->ConvertValue($Packet[9], true, $Packet[10], 1),
+									'TempUnits' => 'º F',
+									'Humidity' => $this->ConvertValue($Packet[11]),
+									'HumidityUnits' => '%'
+									),
+			'Outdoor' => (object) array (
+									'Temp'  => $this->ConvertValue($Packet[12], true, $Packet[13], 1),
+									'TempUnits' => 'º F',
+									'Humidity' => $this->ConvertValue($Packet[33]),
+									'HumidityUnits' => '%'
+									),
+			'Wind' => (object) array (
+									'SpeedUnits' => 'MPH',
+									'Speed' => $this->ConvertValue($Packet[14]),
+									'Speed_10Avg' => $this->ConvertValue($Packet[18], false, $Packet[19], 1),
+									'Speed_2Avg' => $this->ConvertValue($Packet[20], false, $Packet[21], 1),
+									'DirectionUnits' => 'º',
+									'Direction' => $this->ConvertValue($Packet[16], false, $Packet[17]),
+									'Wind_Gust' => (object) array(
+															'Speed_10Avg' => $this->ConvertValue($Packet[22], false, $Packet[23], 1),
+															'Direction_10Avg' => $this->ConvertValue($Packet[24], false, $Packet[25])
+															)
+									),
+			'Calculated' => (object) array (
+									'temps' => (object) array (
 														'TempUnits' => 'º F',
-														'Humidity' => $this->ConvertValue($Packet[11]),
-														'HumidityUnits' => '%'
-														),
-								'Outdoor' => (object) array (
-														'Temp'  => $this->ConvertValue($Packet[12], true, $Packet[13], 1),
-														'TempUnits' => 'º F',
-														'Humidity' => $this->ConvertValue($Packet[33]),
-														'HumidityUnits' => '%'
-														),
-								'Wind' => (object) array (
-														'SpeedUnits' => 'MPH',
-														'Speed' => $this->ConvertValue($Packet[14]),
-														'Speed_10Avg' => $this->ConvertValue($Packet[18], false, $Packet[19], 1),
-														'Speed_2Avg' => $this->ConvertValue($Packet[20], false, $Packet[21], 1),
-														'DirectionUnits' => 'º',
-														'Direction' => $this->ConvertValue($Packet[16], false, $Packet[17]),
-														'Wind_Gust' => (object) array(
-																				'Speed_10Avg' => $this->ConvertValue($Packet[22], false, $Packet[23], 1),
-																				'Direction_10Avg' => $this->ConvertValue($Packet[24], false, $Packet[25])
-																				)
-														),
-								'Calculated' => (object) array (
-														'temps' => (object) array (
-																			'TempUnits' => 'º F',
-																			'Dew_Point' => (integer) $this->ConvertValue($Packet[30], true, $Packet[31]),
-																			'Heat_Index' => (integer) $this->ConvertValue($Packet[35], true, $Packet[36]),
-																			'Wind_Chill' =>  (integer) $this->ConvertValue($Packet[37], true, $Packet[38])
-																			)
-																),
-								'Rain' => (object) array (
-														'RainUnits' => "in",
-														'RainRatePerHr' => ($this->ConvertValue($Packet[41], true, $Packet[42]) * $RainRate),
-
-														'Storm' => (object) array (
-																				'Rain' => ($this->ConvertValue($Packet[46], true, $Packet[47]) * $RainRate),
-																				'DateStart' => $this->ConvertBITDate($this->ConvertValue($Packet[48], true, $Packet[49]))
-																				),
-														'historical' => (object) array (
-																				'DailyRain' => ($this->ConvertValue($Packet[50], true, $Packet[51]) * $RainRate),
-																				'DailyET' => (integer) $this->ConvertValue($Packet[56], true, $Packet[57]),
-																				'Last15MinRain' => ($this->ConvertValue($Packet[52], true, $Packet[53]) * $RainRate),
-																				'LastHourRain' =>  ($this->ConvertValue($Packet[54], true, $Packet[55]) * $RainRate),
-																				'Last24Rain' => ($this->ConvertValue($Packet[58], true, $Packet[59]) * $RainRate)
-																				)
+														'Dew_Point' => (integer) $this->ConvertValue($Packet[30], true, $Packet[31]),
+														'Heat_Index' => (integer) $this->ConvertValue($Packet[35], true, $Packet[36]),
+														'Wind_Chill' =>  (integer) $this->ConvertValue($Packet[37], true, $Packet[38])
 														)
-								);
+											),
+			'Rain' => (object) array (
+									'RainUnits' => "in",
+												'RainRatePerHr' => ($this->ConvertValue($Packet[41], true, $Packet[42]) * $RainRate),
+
+												'Storm' => (object) array (
+																		'Rain' => ($this->ConvertValue($Packet[46], true, $Packet[47]) * $RainRate),
+																		'DateStart' => $this->ConvertBITDate($this->ConvertValue($Packet[48], true, $Packet[49]))
+																		),
+												'historical' => (object) array (
+																		'DailyRain' => ($this->ConvertValue($Packet[50], true, $Packet[51]) * $RainRate),
+																		'DailyET' => (integer) $this->ConvertValue($Packet[56], true, $Packet[57]),
+																		'Last15MinRain' => ($this->ConvertValue($Packet[52], true, $Packet[53]) * $RainRate),
+																		'LastHourRain' =>  ($this->ConvertValue($Packet[54], true, $Packet[55]) * $RainRate),
+																		'Last24Rain' => ($this->ConvertValue($Packet[58], true, $Packet[59]) * $RainRate)
+																		)
+												)
+						);
 
 		return $DataPacket;
 
